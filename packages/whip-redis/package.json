@@ -1,0 +1,12 @@
+{
+  "name": "@generates/whip-redis",
+  "version": "0.0.0",
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "example.name": "../../example.js ./tests/fixtures/name.js"
+  },
+  "dependencies": {
+    "ioredis": "^4.28.1"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "whip",
+  "version": "0.0.0",
+  "license": "UNLICENSED",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "docker": "docker-compose up"
+  }
+}
