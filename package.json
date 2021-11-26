@@ -9,9 +9,11 @@
   ],
   "scripts": {
     "docker": "docker-compose up",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "mr test"
   },
   "devDependencies": {
+    "@generates/mister": "^0.0.4",
     "@ianwalter/eslint-config": "^7.1.0",
     "@ianwalter/renovate-config": "^1.4.6"
   },
