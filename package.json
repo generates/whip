@@ -5,7 +5,8 @@
   "license": "UNLICENSED",
   "type": "module",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "bench"
   ],
   "scripts": {
     "docker": "docker-compose up",

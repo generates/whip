@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "bench",
+  "version": "0.0.0",
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "whip": "./whip.js",
+    "http": "./http.js",
+    "polka": "./polka.js"
+  }
+}

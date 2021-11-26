@@ -26,7 +26,9 @@ export default function loggerPlugin (app, opts) {
     res.log = function logResponse (body) {
       let log = `${req.method} ${req.path} ${res.statusCode} Response`
 
-      log += ` ${chalk.dim(`in ${timer.duration()}`)}`
+      if (app.opts.isDev) {
+        log += ` ${chalk.dim(`in ${timer.duration()}`)}`
+      }
 
       req.logger.log(log)
     }
