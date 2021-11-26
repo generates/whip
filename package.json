@@ -8,6 +8,22 @@
     "packages/*"
   ],
   "scripts": {
-    "docker": "docker-compose up"
+    "docker": "docker-compose up",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@ianwalter/eslint-config": "^7.1.0",
+    "@ianwalter/renovate-config": "^1.4.6"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "@ianwalter"
+    ]
+  },
+  "renovate": {
+    "extends": [
+      "@ianwalter"
+    ]
   }
 }

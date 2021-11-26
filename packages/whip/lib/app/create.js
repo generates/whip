@@ -1,14 +1,26 @@
 import polka from 'polka'
-import start from './start.js'
+import { merge } from '@generates/merger'
 import add from './add.js'
+import start from './start.js'
+import test from './test.js'
 import logger from '../plugins/logger.js'
 import responseMiddleware from '../middleware/response.js'
+
+const defaults = {
+  isDev: !process.env.NODE_ENV || process.env.NODE_ENV === 'development',
+  isTest: process.env.NODE_ENV === 'test',
+  isProd: process.env.NODE_ENV === 'production',
+  get hostname () {
+    return process.env.APP_HOSTNAME || this.isDev ? 'localhost' : '0.0.0.0'
+  },
+  port: process.env.PORT
+}
 
 export default function create (opts = {}) {
   const app = polka()
 
   // Add the given options to the app for convenience.
-  app.opts = opts
+  app.opts = merge({}, defaults, opts)
 
   /* Methods */
 
@@ -19,10 +31,13 @@ export default function create (opts = {}) {
   // port and serving requests.
   app.start = start
 
+  //
+  app.test = test
+
   /* Plugins */
 
   // Add a logger to the app and request object.
-  app.add({ plugin: logger, opts: opts.logger })
+  app.add({ plugin: logger, opts: app.opts.logger })
 
   /* Middleware */
 
