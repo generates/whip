@@ -5,6 +5,7 @@ import start from './start.js'
 import test from './test.js'
 import logger from '../plugins/logger.js'
 import responseMiddleware from '../middleware/response.js'
+import requestIdMiddleware from '../middleware/requestId.js'
 
 const defaults = {
   isDev: !process.env.NODE_ENV || process.env.NODE_ENV === 'development',
@@ -45,6 +46,9 @@ export default function create (opts = {}) {
   // formats are more convenient and the response can be logged.
   app.use(responseMiddleware)
 
+  //
+  app.use(requestIdMiddleware)
+
   // Add default onNoMatch handler so that it uses res.send and the response is
   // logged.
   app.onNoMatch = function onNoMatch (req, res) {
@@ -53,6 +57,7 @@ export default function create (opts = {}) {
   }
 
   app.onError = function onError (err, req, res) {
+    req.logger.error(err)
     res.statusCode = err.status || 500
     const body = err.body || 'Internal Server Error'
     if (typeof body === 'string') {
