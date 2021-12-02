@@ -1,15 +1,14 @@
-import { createLogger, chalk } from '@generates/logger'
+import { roll, kleur } from '@generates/roll'
 import { merge } from '@generates/merger'
 import createTimer from '@ianwalter/timer'
 
 const defaults = {
-  name: 'whip',
-  level: 'info'
+  namespace: 'whip'
 }
 
 export default function loggerPlugin (app, opts) {
   //
-  app.logger = createLogger(merge({}, defaults, opts))
+  app.logger = roll.create(merge({}, defaults, opts))
 
   //
   app.use(function loggerMiddleware (req, res, next) {
@@ -27,7 +26,7 @@ export default function loggerPlugin (app, opts) {
       let log = `${req.method} ${req.path} ${res.statusCode} Response`
 
       if (app.opts.isDev) {
-        log += ` ${chalk.dim(`in ${timer.duration()}`)}`
+        log += ` ${kleur.dim(`in ${timer.duration()}`)}`
       }
 
       req.logger.log(log)

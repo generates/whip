@@ -393,6 +393,16 @@
     "@generates/logger" "^2.0.4"
     "@generates/merger" "^0.1.3"
 
+"@generates/roll@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@generates/roll/-/roll-0.4.0.tgz#0c1c48bf4771896bcc7bf9d7283397339990c12f"
+  integrity sha512-HD7hthUmPpzr+v6a0VosfEXTAcj9/hVsTeGS9GE0ppp4A9ptlcKwBH8FSGnYTxUnuuP2LVS0jaLGnKG3/DHD2A==
+  dependencies:
+    "@generates/merger" "^0.1.3"
+    "@generates/number-lines" "^0.0.1"
+    emphasize "^5.0.0"
+    kleur "^4.1.4"
+
 "@humanwhocodes/config-array@^0.6.0":
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.6.0.tgz#b5621fdb3b32309d2d16575456cbc277fa8f021a"
@@ -2067,6 +2077,11 @@ junit-report-builder@^3.0.0:
     lodash "^4.17.15"
     make-dir "^1.3.0"
     xmlbuilder "^15.1.1"
+
+kleur@^4.1.4:
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/kleur/-/kleur-4.1.4.tgz#8c202987d7e577766d039a8cd461934c01cda04d"
+  integrity sha512-8QADVssbrFjivHWQU7KkMgptGTl6WAcSdlbBPY4uNF+mWr6DGcKrvY2w4FQJoXch7+fKMjj0dRrL75vk3k23OA==
 
 koa-compose@^4.1.0:
   version "4.1.0"

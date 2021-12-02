@@ -6,6 +6,9 @@
   "scripts": {
     "example.name": "../../example.js ./tests/fixtures/name.js"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "ioredis": "^4.28.1"
   }

@@ -2,7 +2,7 @@
 
 import { create } from '@generates/whip'
 
-const app = create()
+const app = create({ logger: { stdout: false } })
 
 app.use(function one (req, res, next) {
   req.one = true
