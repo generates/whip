@@ -1,6 +1,8 @@
+import { ValidationError } from '@generates/whip'
+
 export default async function validateAccount (req, res, next) {
   const logger = req.logger.ns('whip.accounts.account')
-  const { accountValidator } = req.app.opts.accounts
+  const { accountValidator } = req.opts.accounts
   logger.debug('account.validateAccount', { body: req.body })
 
   const validation = await accountValidator.validate(req.body)
@@ -8,8 +10,6 @@ export default async function validateAccount (req, res, next) {
     req.state.validation = validation
     next()
   } else {
-    // TODO:
-    // throw new ValidationError(validation)
-    throw new Error(validation)
+    throw new ValidationError(validation)
   }
 }

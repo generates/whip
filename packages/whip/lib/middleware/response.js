@@ -4,9 +4,6 @@ function end (res, body, headers = {}) {
 }
 
 export default function responseMiddleware (req, res, next) {
-  //
-  req.state = {}
-
   res.send = function send (body) {
     body = body || req.state.body
     res.log(body)

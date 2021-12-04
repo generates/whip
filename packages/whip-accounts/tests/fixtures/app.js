@@ -1,11 +1,11 @@
 import { create } from '@generates/whip'
 import accounts from '../../index.js'
 
-const app = create()
+const app = create({ logger: { level: 'error', pretty: true } })
 
 app.add({ plugin: accounts })
 
-app.post('/sign-up', ...accounts.signUp)
+app.post('/sign-up', accounts.signUp[0])
 
 app.get('/', async function accounts (req, res) {
   const accounts = await req.prisma.account.findMany()

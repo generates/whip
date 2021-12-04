@@ -1,5 +1,6 @@
 import polka from 'polka'
 import { merge } from '@generates/merger'
+import bodyParser from 'body-parser'
 import add from './add.js'
 import start from './start.js'
 import test from './test.js'
@@ -42,12 +43,25 @@ export default function create (opts = {}) {
 
   /* Middleware */
 
+  app.use(function baseMiddleware (req, res, next) {
+    //
+    req.state = {}
+
+    //
+    req.opts = app.opts
+
+    next()
+  })
+
   // Add functions to the response object so that sending responses with common
   // formats are more convenient and the response can be logged.
   app.use(responseMiddleware)
 
   //
   app.use(requestIdMiddleware)
+
+  //
+  app.use(bodyParser.json())
 
   // Add default onNoMatch handler so that it uses res.send and the response is
   // logged.
@@ -57,7 +71,8 @@ export default function create (opts = {}) {
   }
 
   app.onError = function onError (err, req, res) {
-    req.logger.error(err)
+    const logLevel = err.logLevel || 'error'
+    if (req.logger[logLevel]) req.logger[logLevel](err)
     res.statusCode = err.status || 500
     const body = err.body || 'Internal Server Error'
     if (typeof body === 'string') {

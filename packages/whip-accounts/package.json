@@ -4,6 +4,7 @@
   "license": "UNLICENSED",
   "type": "module",
   "scripts": {
+    "test": "bff",
     "example.app": "../../example.js ./tests/fixtures/app.js"
   },
   "publishConfig": {
@@ -15,5 +16,8 @@
     "@generates/whip-data": "*",
     "@generates/whip-prisma": "*",
     "bcrypt": "^5.0.1"
+  },
+  "devDependencies": {
+    "@ianwalter/bff": "^11.2.2"
   }
 }
