@@ -5,7 +5,7 @@ const app = create({ logger: { level: 'error', pretty: true } })
 
 app.add({ plugin: accounts })
 
-app.post('/sign-up', accounts.signUp[0])
+app.post('/sign-up', ...accounts.signUp)
 
 app.get('/', async function accounts (req, res) {
   const accounts = await req.prisma.account.findMany()
