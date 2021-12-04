@@ -7,7 +7,7 @@ export default async function hashPassword (req, res, next) {
   if (password) {
     const logger = req.logger.ns('whip.accounts.password')
     logger.debug('password.hashPassword', { password })
-    const salt = await bcrypt.genSalt(ctx.cfg.hash.rounds)
+    const salt = await bcrypt.genSalt(req.opts.accounts.hash.rounds)
     req.state.hashedPassword = await bcrypt.hash(password, salt)
   }
   next()

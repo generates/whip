@@ -7,7 +7,11 @@ import hashPassword from './middleware/password/hashPassword.js'
 import createAccount from './middleware/account/createAccount.js'
 
 const defaults = {
-  accountValidator
+  accountValidator,
+  hash: {
+    bytes: 48,
+    rounds: 12
+  }
 }
 
 export default function accountsPlugin (app, opts = {}) {

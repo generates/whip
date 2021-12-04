@@ -13,9 +13,9 @@ const password = '13eip3mlsdf0123mklqslk'
 
 test('Registration • Email required', async t => {
   const payload = { firstName, lastName, password }
-  const response = await app.test('/sign-up').post(payload)
-  t.expect(response.statusCode).toBe(400)
-  t.expect(response.body).toEqual({
+  const res = await app.test('/sign-up').post(payload)
+  t.expect(res.statusCode).toBe(400)
+  t.expect(res.body).toEqual({
     message: 'Validation Error',
     feedback: { email: ['A valid email is required.'] }
   })
@@ -23,63 +23,60 @@ test('Registration • Email required', async t => {
 
 test('Registration • Password required', async t => {
   const payload = { firstName, lastName, email }
-  const response = await app.test('/sign-up').post(payload)
-  t.expect(response.statusCode).toBe(400)
-  t.expect(response.body).toEqual({
+  const res = await app.test('/sign-up').post(payload)
+  t.expect(res.statusCode).toBe(400)
+  t.expect(res.body).toEqual({
     message: 'Validation Error',
     feedback: { password: ['A valid password is required.'] }
   })
 })
 
-// test('Registration • First name required', async t => {
-//   const payload = { firstName: '', lastName, email, password }
-//   const response = await app.test('/registration').post(payload)
-//   t.expect(response.statusCode).toBe(400)
-//   t.expect(response.body).toMatchSnapshot()
-// })
+test('Registration • Weak password', async t => {
+  const payload = { firstName, lastName, email, password: 'abc123' }
+  const res = await app.test('/sign-up').post(payload)
+  t.expect(res.statusCode).toBe(400)
+  t.expect(res.body).toEqual({
+    message: 'Validation Error',
+    feedback: {
+      password: [
+        'This is a top-100 common password',
+        'Add another word or two. Uncommon words are better.'
+      ]
+    }
+  })
+})
 
-// test('Registration • Last name validation', async t => {
-//   const payload = { firstName, lastName: null, email, password }
-//   const response = await app.test('/registration').post(payload)
-//   t.expect(response.statusCode).toBe(400)
-//   t.expect(response.body).toMatchSnapshot()
-// })
+test('Registration • Invalid email', async t => {
+  const payload = { firstName, lastName, email: 'bilbo@example,com', password }
+  const res = await app.test('/sign-up').post(payload)
+  t.expect(res.statusCode).toBe(400)
+  t.expect(res.body).toEqual({
+    message: 'Validation Error',
+    feedback: { email: ['A valid email is required.'] }
+  })
+})
 
-// test('Registration • Weak password', async t => {
-//   const payload = { firstName, lastName, email, password: 'abc123' }
-//   const response = await app.test('/registration').post(payload)
-//   t.expect(response.statusCode).toBe(400)
-//   t.expect(response.body).toMatchSnapshot()
-// })
+test('Registration • Success', async t => {
+  // Register the new account.
+  const payload = { firstName, lastName, email, password }
+  let res = await app.test('/sign-up').post(payload)
+  t.expect(res.statusCode).toBe(201)
+  t.expect(res.body).toEqual({ message: 'Sign up successful!' })
 
-// test('Registration • Invalid email', async t => {
-//   const payload = { firstName, lastName, email: 'bilbo@example,com', password }
-//   const response = await app.test('/registration').post(payload)
-//   t.expect(response.statusCode).toBe(400)
-//   t.expect(response.body).toMatchSnapshot()
-// })
+  // // Extract the Email Verification token.
+  // await t.asleep(1000)
+  // const { token } = await extractEmailToken(e => e.headers.to === email)
 
-// test('Registration • Success', async t => {
-//   // Register the new account.
-//   const payload = { firstName, lastName, email, password }
-//   let response = await app.test('/registration').post(payload)
-//   t.expect(response.statusCode).toBe(201)
-//   t.expect(response.body).toMatchSnapshot()
+  // // Verify the email address.
+  // response = await app.test('/verify-email').post({ ...payload, token })
+  // t.expect(response.statusCode).toBe(201)
+  // t.expect(response.body.account.firstName).toBe(payload.firstName)
+  // t.expect(response.body.account.lastName).toBe(payload.lastName)
 
-//   // Extract the Email Verification token.
-//   await t.asleep(1000)
-//   const { token } = await extractEmailToken(e => e.headers.to === email)
-
-//   // Verify the email address.
-//   response = await app.test('/verify-email').post({ ...payload, token })
-//   t.expect(response.statusCode).toBe(201)
-//   t.expect(response.body.account.firstName).toBe(payload.firstName)
-//   t.expect(response.body.account.lastName).toBe(payload.lastName)
-
-//   // Verify that the email was verified.
-//   const record = await Account.query().findById(response.body.account.id)
-//   t.expect(record.emailVerified).toBe(true)
-// })
+  // // Verify that the email was verified.
+  // const record = await Account.query().findById(response.body.account.id)
+  // t.expect(record.emailVerified).toBe(true)
+})
 
 // test('Registration • Existing verified email', async t => {
 //   // Register using the verified user's email.

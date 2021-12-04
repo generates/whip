@@ -1,15 +1,16 @@
 import { merge } from '@generates/merger'
 import { excluding } from '@generates/extractor'
+import { nanoid } from 'nanoid'
 
 export default async function createAccount (req, res, next) {
   const logger = req.logger.ns('whip.accounts.account')
   const password = req.state.hashedPassword
-  const data = merge({}, req.state.validation.data, { password })
+  const data = merge({}, req.state.validation.data, { id: nanoid(), password })
   logger.debug('signUp.createAccount', data)
 
   try {
     // Create the account by saving the submitted data to the database.
-    req.state.account = await req.prisma.account.create(data)
+    req.state.account = await req.prisma.account.create({ data })
     const account = excluding(req.state.account, 'password')
     logger.info('signUp.createAccount • Account created', account)
 
@@ -41,7 +42,7 @@ export default async function createAccount (req, res, next) {
   // this is true or not so that the app doesn't leak registration information).
   // The session won't be created until they complete the email verification
   // process.
-  req.state.status = 201
+  req.state.statusCode = 201
   req.state.body = { message: 'Sign up successful!' }
   next()
 }

@@ -16,3 +16,9 @@ services:
       POSTGRES_DB: $DB_NAME
       POSTGRES_USER: $DB_USER
       POSTGRES_PASSWORD: $DB_PASS
+
+  maildev:
+    image: djfarrelly/maildev:1.1.0
+    ports:
+      - $SMTP_PORT:25
+      - $MAILDEV_PORT:80

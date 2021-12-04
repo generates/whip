@@ -4,6 +4,7 @@
   "license": "UNLICENSED",
   "type": "module",
   "scripts": {
+    "pretest": "prisma db seed",
     "test": "bff",
     "example.app": "../../example.js ./tests/fixtures/app.js"
   },
@@ -15,9 +16,13 @@
     "@generates/whip": "*",
     "@generates/whip-data": "*",
     "@generates/whip-prisma": "*",
-    "bcrypt": "^5.0.1"
+    "bcrypt": "^5.0.1",
+    "nanoid": "^3.1.30"
   },
   "devDependencies": {
     "@ianwalter/bff": "^11.2.2"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }
