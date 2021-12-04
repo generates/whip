@@ -1,0 +1,19 @@
+{
+  "name": "@generates/whip-prisma",
+  "version": "0.0.0",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "example.accounts": "../../example.js ./tests/fixtures/accounts.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.6.0"
+  },
+  "devDependencies": {
+    "prisma": "^3.6.0"
+  }
+}
