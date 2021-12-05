@@ -1,5 +1,6 @@
 import { test } from '@ianwalter/bff'
 // import nrg from '@ianwalter/nrg'
+import { extractToken } from '@generates/whip-email'
 import app from './fixtures/app.js'
 // import { accounts } from '../seeds/01_accounts.js'
 
@@ -63,19 +64,20 @@ test('Registration • Success', async t => {
   t.expect(res.statusCode).toBe(201)
   t.expect(res.body).toEqual({ message: 'Sign up successful!' })
 
-  // // Extract the Email Verification token.
-  // await t.asleep(1000)
-  // const { token } = await extractEmailToken(e => e.headers.to === email)
+  // Extract the Email Verification token.
+  await t.asleep(1000)
+  const { token } = await extractToken(e => e.headers.to === email)
 
-  // // Verify the email address.
-  // response = await app.test('/verify-email').post({ ...payload, token })
-  // t.expect(response.statusCode).toBe(201)
-  // t.expect(response.body.account.firstName).toBe(payload.firstName)
-  // t.expect(response.body.account.lastName).toBe(payload.lastName)
+  // Verify the email address.
+  res = await app.test('/verify-email').post({ ...payload, token })
+  t.expect(res.statusCode).toBe(201)
+  t.expect(res.body.account.firstName).toBe(payload.firstName)
+  t.expect(res.body.account.lastName).toBe(payload.lastName)
 
-  // // Verify that the email was verified.
-  // const record = await Account.query().findById(response.body.account.id)
-  // t.expect(record.emailVerified).toBe(true)
+  // Verify that the email was verified.
+  const where = { id: res.body.account.id }
+  const record = await app.prisma.findUnique({ where })
+  t.expect(record.emailVerified).toBe(true)
 })
 
 // test('Registration • Existing verified email', async t => {

@@ -7,11 +7,11 @@ function handleEmailVerificationEmail (req, res, next, options) {
   const url = createUrl(req.opts.baseUrl, options.path)
   const input = req.state.validation.data
   url.search = { email: input.email, token: req.state.token }
-  const { emailVerification } = req.opts.email.templates
-  const data = { name: req.state.name, action: { button: { link: url.href } } }
-  const body = merge({}, emailVerification, data)
-  const html = req.mailgen.generate({ body })
-  const subject = options.subject || `${req.opts.name} Email Verification`
+  const { emailVerification } = req.opts.accounts.email
+  const data = { action: { href: url.href } }
+  const html = req.stencil.render(merge({}, emailVerification, data))
+  const subject = options.subject ||
+    `${req.opts.accounts.name} Email Verification`
 
   // If the token was inserted, add the email information to ctx.state so that
   // the sendEmail middleware will send the email.

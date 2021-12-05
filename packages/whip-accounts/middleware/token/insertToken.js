@@ -1,5 +1,6 @@
 import { merge } from '@generates/merger'
 import { addDays } from 'date-fns'
+import { nanoid } from 'nanoid'
 
 const defaults = { type: 'email' }
 
@@ -7,11 +8,11 @@ async function handleInsertToken (req, res, next, options) {
   const account = req.state.account
 
   // Add response data to ctx.state.
-  req.state.body = { message: options.message }
   const isEmail = options.type === 'email'
   if (!req.state.body.message) {
     const t = isEmail ? 'Email Verification' : 'Forgot Password'
-    req.state.body.message = `${t} request submitted successfully`
+    req.state.body.message = options.message ||
+      `${t} request submitted successfully`
   }
 
   const data = req.state.validation.data
@@ -55,6 +56,7 @@ async function handleInsertToken (req, res, next, options) {
     req.prisma.token
       .create({
         data: {
+          id: nanoid(),
           value: req.state.hashedToken,
           type: options.type,
           email: data.email,
@@ -76,7 +78,7 @@ async function handleInsertToken (req, res, next, options) {
 /**
  * Insert the hashed version of the generated token into the database.
  */
-export function insertToken (req, res, next) {
+export default function insertToken (req, res, next) {
   let options = defaults
   if (!next) {
     options = merge({}, options, req)

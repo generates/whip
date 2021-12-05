@@ -2,8 +2,8 @@ import bcrypt from 'bcrypt'
 import uid from 'uid-safe'
 
 async function handleCreateToken (req, res, next, options = {}) {
-  req.state.token = await uid(options.bytes || req.opts.hash.bytes)
-  const rounds = options.rounds || req.opts.hash.rounds
+  req.state.token = await uid(options.bytes || req.opts.accounts.hash.bytes)
+  const rounds = options.rounds || req.opts.accounts.hash.rounds
   req.state.hashedToken = await bcrypt.hash(req.state.token, rounds)
 
   const debug = { token: req.state.token, hashedToken: req.state.hashedToken }

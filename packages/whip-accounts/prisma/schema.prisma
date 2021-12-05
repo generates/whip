@@ -21,4 +21,26 @@ model Account {
   enabled       Boolean  @default(value: true)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
+
+  @@index([email])
+  @@index([username])
+}
+
+enum TokenType {
+  email
+  password
+}
+
+model Token {
+  id        String    @id
+  value     String    @unique
+  accountId String
+  type      TokenType @default(value: email)
+  email     String
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+
+  @@index([email])
+  @@index([accountId])
 }

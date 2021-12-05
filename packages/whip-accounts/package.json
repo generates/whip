@@ -13,11 +13,15 @@
   },
   "dependencies": {
     "@generates/extractor": "^1.3.1",
+    "@generates/merger": "^0.1.3",
     "@generates/whip": "*",
     "@generates/whip-data": "*",
     "@generates/whip-prisma": "*",
+    "@ianwalter/url": "^2.0.0",
     "bcrypt": "^5.0.1",
-    "nanoid": "^3.1.30"
+    "date-fns": "^2.27.0",
+    "nanoid": "^3.1.30",
+    "uid-safe": "^2.1.5"
   },
   "devDependencies": {
     "@ianwalter/bff": "^11.2.2"

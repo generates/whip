@@ -1,6 +1,7 @@
 import { merge } from '@generates/merger'
 import { addToResponse } from '@generates/whip'
 import prisma from '@generates/whip-prisma'
+import email from '@generates/whip-email'
 import accountValidator from './validators/accountValidator.js'
 import createToken from './middleware/token/createToken.js'
 import insertToken from './middleware/token/insertToken.js'
@@ -11,16 +12,25 @@ import hashPassword from './middleware/password/hashPassword.js'
 import createAccount from './middleware/account/createAccount.js'
 
 const defaults = {
+  name: 'Account',
   accountValidator,
   hash: {
     bytes: 48,
     rounds: 12
+  },
+  email: {
+    emailVerification: {
+      heading: 'Email Verification',
+      message: 'To get started, please click the button below:',
+      action: { label: 'Verify your account' }
+    }
   }
 }
 
 export default function accountsPlugin (app, opts = {}) {
   app.opts.accounts = merge({}, defaults, opts)
   if (!app.prisma) prisma(app, opts.prisma)
+  if (!app.nodemailer) email(app, opts.email)
 }
 
 accountsPlugin.startEmailVerification = [
@@ -35,6 +45,17 @@ accountsPlugin.signUp = [
   hashPassword,
   createAccount,
   ...accountsPlugin.startEmailVerification,
+  addToResponse
+]
+
+accountsPlugin.verifyEmail = [
+  // validateEmailVerification,
+  // getEmailTokens,
+  // verifyToken,
+  // verifyEmail,
+  // getAccount,
+  // createUserSession,
+  // reduceAccountForClient,
   addToResponse
 ]
 

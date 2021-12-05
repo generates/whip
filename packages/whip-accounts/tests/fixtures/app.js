@@ -3,7 +3,18 @@ import accounts from '../../index.js'
 
 const app = create({ logger: { level: 'error', pretty: true } })
 
-app.add({ plugin: accounts })
+app.add({
+  plugin: accounts,
+  opts: {
+    email: {
+      transport: {
+        ignoreTLS: true,
+        host: 'localhost',
+        port: 25
+      }
+    }
+  }
+})
 
 app.post('/sign-up', ...accounts.signUp)
 
