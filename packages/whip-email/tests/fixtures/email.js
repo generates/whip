@@ -17,8 +17,12 @@ app.add({
 app.get('/', async function name (req, res) {
   const email = req.query.email?.split(' ')?.slice(0, 32)
   if (email) {
+    const html = req.stencil.render({
+      heading: 'Welcome, Jane! 🎉',
+      message: 'We’ve heard you like emails!'
+    })
     req.nodemailer.sendMail(
-      { to: email, subject: 'test', text: 'test' },
+      { to: email, subject: 'Welcome', html },
       (err, info) => {
         if (err) req.logger.error(err)
         req.logger.debug(info)
