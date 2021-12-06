@@ -14,7 +14,7 @@ CREATE TABLE "Account" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    PRIMARY KEY ("id")
+    CONSTRAINT "Account_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -28,39 +28,38 @@ CREATE TABLE "Token" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    PRIMARY KEY ("id")
+    CONSTRAINT "Token_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Session" (
-    "id" TEXT NOT NULL,
     "sid" TEXT NOT NULL,
-    "data" TEXT NOT NULL,
-    "expiresAt" TIMESTAMP(3) NOT NULL,
+    "sess" JSONB NOT NULL,
+    "expire" TIMESTAMP(3) NOT NULL,
 
-    PRIMARY KEY ("id")
+    CONSTRAINT "Session_pkey" PRIMARY KEY ("sid")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Account.email_unique" ON "Account"("email");
+CREATE UNIQUE INDEX "Account_email_key" ON "Account"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Account.username_unique" ON "Account"("username");
+CREATE UNIQUE INDEX "Account_username_key" ON "Account"("username");
 
 -- CreateIndex
-CREATE INDEX "Account.email_index" ON "Account"("email");
+CREATE INDEX "Account_email_idx" ON "Account"("email");
 
 -- CreateIndex
-CREATE INDEX "Account.username_index" ON "Account"("username");
+CREATE INDEX "Account_username_idx" ON "Account"("username");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Token.value_unique" ON "Token"("value");
+CREATE UNIQUE INDEX "Token_value_key" ON "Token"("value");
 
 -- CreateIndex
-CREATE INDEX "Token.email_index" ON "Token"("email");
+CREATE INDEX "Token_email_idx" ON "Token"("email");
 
 -- CreateIndex
-CREATE INDEX "Token.accountId_index" ON "Token"("accountId");
+CREATE INDEX "Token_accountId_idx" ON "Token"("accountId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Session.sid_unique" ON "Session"("sid");
+CREATE INDEX "Session_expire_idx" ON "Session"("expire");

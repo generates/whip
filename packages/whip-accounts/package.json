@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "UNLICENSED",
   "type": "module",
+  "main": "index.js",
   "scripts": {
     "pretest": "prisma db seed",
     "test": "bff",

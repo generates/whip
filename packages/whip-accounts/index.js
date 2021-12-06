@@ -13,6 +13,11 @@ import hashPassword from './middleware/password/hashPassword.js'
 import createAccount from './middleware/account/createAccount.js'
 import validateVerifyEmail from './middleware/email/validateVerifyEmail.js'
 import getEmailToken from './middleware/token/getEmailToken.js'
+import verifyToken from './middleware/token/verifyToken.js'
+import verifyEmail from './middleware/email/verifyEmail.js'
+import getAccount from './middleware/account/getAccount.js'
+import createSession from './middleware/session/createSession.js'
+import reduceAccount from './middleware/account/reduceAccount.js'
 
 const defaults = {
   name: 'Account',
@@ -27,7 +32,8 @@ const defaults = {
       message: 'To get started, please click the button below:',
       action: { label: 'Verify your account' }
     }
-  }
+  },
+  hiddenFields: ['password']
 }
 
 export default function accountsPlugin (app, opts = {}) {
@@ -55,11 +61,11 @@ accountsPlugin.signUp = [
 accountsPlugin.verifyEmail = [
   validateVerifyEmail,
   getEmailToken,
-  // verifyToken,
-  // verifyEmail,
-  // getAccount,
-  // createUserSession,
-  // reduceAccountForClient,
+  verifyToken,
+  verifyEmail,
+  getAccount,
+  createSession,
+  reduceAccount,
   addToResponse
 ]
 

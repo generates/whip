@@ -22,7 +22,7 @@ export default async function createSession (req, res, next) {
     req.session.account = req.state.account
 
     // Set the status to 201 to indicate a new user session was created.
-    req.state.status = 201
+    req.state.statusCode = 201
 
     // Add a CSRF token to the body (if it wasn't already added by clearSession)
     // so that the login response is consistent whether you are already logged
