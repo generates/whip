@@ -17,6 +17,7 @@
     "@generates/whip": "*",
     "@generates/whip-data": "*",
     "@generates/whip-prisma": "*",
+    "@generates/whip-sessions": "*",
     "@ianwalter/url": "^2.0.0",
     "bcrypt": "^5.0.1",
     "date-fns": "^2.27.0",

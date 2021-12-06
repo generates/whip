@@ -1,0 +1,19 @@
+{
+  "name": "@generates/whip-sessions",
+  "version": "0.0.0",
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "example.name": "../../example.js ./tests/fixtures/name.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@generates/merger": "^0.1.3",
+    "@generates/whip-prisma": "*",
+    "@quixo3/prisma-session-store": "^3.1.0",
+    "express-session": "^1.17.2",
+    "nanoid": "^3.1.30"
+  }
+}
