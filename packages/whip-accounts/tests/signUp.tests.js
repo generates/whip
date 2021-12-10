@@ -76,7 +76,7 @@ test('Registration • Success', async t => {
 
   // Verify that the email was verified.
   const where = { id: res.body.account.id }
-  const record = await app.prisma.findUnique({ where })
+  const record = await app.prisma.account.findUnique({ where })
   t.expect(record.emailVerified).toBe(true)
 })
 

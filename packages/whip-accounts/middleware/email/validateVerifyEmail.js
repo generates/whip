@@ -1,12 +1,11 @@
 import { ValidationError } from '@generates/whip'
+import verifyEmailValidator from '../../validators/verifyEmailValidator.js'
 
-export default async function validateAccount (req, res, next) {
+export default async function validateVerifyEmail (req, res, next) {
   const logger = req.logger.ns('whip.accounts.email')
-  // TODO:
-  const { accountValidator } = req.opts.accounts
-  logger.debug('account.validateVerifyEmail', { body: req.body })
+  logger.debug('email.validateVerifyEmail', { body: req.body })
 
-  const validation = await accountValidator.validate(req.body)
+  const validation = await verifyEmailValidator.validate(req.body)
   if (validation.isValid) {
     req.state.validation = validation
     next()

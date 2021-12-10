@@ -63,3 +63,6 @@ CREATE INDEX "Token_accountId_idx" ON "Token"("accountId");
 
 -- CreateIndex
 CREATE INDEX "Session_expire_idx" ON "Session"("expire");
+
+-- AddForeignKey
+ALTER TABLE "Token" ADD CONSTRAINT "Token_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE CASCADE ON UPDATE CASCADE;

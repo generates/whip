@@ -28,19 +28,22 @@ export default async function verifyToken (req, res, next) {
   if (hasStoredToken && tokensMatch && !isTokenExpired) {
     // Delete the token now that it's been verified.
     req.prisma.token
-      .deleteOne({ where: { id: token.id } })
+      .delete({ where: { id: token.id } })
       .catch(err => logger.error(err))
 
     // Continue to the next middleware.
-    return next()
+    next()
+  } else {
+    const info = { hasStoredToken, tokensMatch, isTokenExpired }
+    logger.warn('token.verifyToken • Invalid token', info)
+    logger.debug(
+      'token.verifyToken • Tokens',
+      { storedToken: token, ...payload }
+    )
+
+    // Return a 400 Bad Request if the token is invalid. The user cannot be told
+    // if this is because the token is expired because that could leak that an
+    // account exists in the system.
+    throw new BadRequestError('Invalid token')
   }
-
-  const info = { hasStoredToken, tokensMatch, isTokenExpired }
-  logger.warn('token.verifyToken • Invalid token', info)
-  logger.debug('token.verifyToken • Tokens', { storedToken: token, ...payload })
-
-  // Return a 400 Bad Request if the token is invalid. The user cannot be told
-  // if this is because the token is expired because that could leak that an
-  // account exists in the system.
-  throw new BadRequestError('Invalid token')
 }

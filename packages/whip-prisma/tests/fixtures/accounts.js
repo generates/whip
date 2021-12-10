@@ -7,7 +7,7 @@ app.add({ plugin: prisma })
 
 app.get('/', async function accounts (req, res) {
   const accounts = await req.prisma.account.findMany()
-  res.json(accounts.map(account => {
+  res.send(accounts.map(account => {
     delete account.password
     return account
   }))

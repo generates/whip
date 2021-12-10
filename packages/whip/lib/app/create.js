@@ -62,7 +62,7 @@ export default function create (opts = {}) {
 
   app.use(function baseMiddleware (req, res, next) {
     //
-    req.state = {}
+    req.state = { headers: {} }
 
     //
     req.opts = app.opts
@@ -83,20 +83,13 @@ export default function create (opts = {}) {
   // Add default onNoMatch handler so that it uses res.send and the response is
   // logged.
   app.onNoMatch = function onNoMatch (req, res) {
-    res.statusCode = 404
-    res.send('Not Found')
+    res.status(404).send('Not Found')
   }
 
   app.onError = function onError (err, req, res) {
     const logLevel = err.logLevel || 'error'
     if (req.logger[logLevel]) req.logger[logLevel](err)
-    res.statusCode = err.status || 500
-    const body = err.body || 'Internal Server Error'
-    if (typeof body === 'string') {
-      res.send(body)
-    } else {
-      res.json(body)
-    }
+    res.status(err.status || 500).send(err.body || 'Internal Server Error')
   }
 
   return app

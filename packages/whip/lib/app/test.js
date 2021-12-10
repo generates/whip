@@ -52,16 +52,16 @@ export default function test (path, opts) {
 
       //   // Make a request to the CSRF token endpoint to get a CSRF token for
       //   // the test request.
-      //   const response = await test(cfg.test.csrfPath).get(options)
+      const res = await app.test('/').get()
 
       //   // Add the CSRF token and session cookie to the request headers.
       //   const csrfToken = response.body.csrfToken
-      //   const cookie = response.headers['set-cookie']
-      //   options.headers = {
-      //     ...options.headers,
-      //     ...csrfToken ? { 'csrf-token': csrfToken } : {},
-      //     ...cookie ? { cookie } : {}
-      //   }
+      const cookie = res.headers['set-cookie']
+      opts.headers = {
+        ...opts.headers,
+        // ...csrfToken ? { 'csrf-token': csrfToken } : {},
+        ...cookie ? { cookie } : {}
+      }
 
       //   if (logger) {
       //     logger.debug(

@@ -19,7 +19,7 @@ function handleEmailVerificationEmail (req, res, next, options) {
     req.state.email = { to: input.email, subject, html }
   }
 
-  return next()
+  next()
 }
 
 export default function createEmailVerificationEmail (req, res, next) {

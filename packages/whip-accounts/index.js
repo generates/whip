@@ -1,4 +1,5 @@
 import { merge } from '@generates/merger'
+import bcrypt from 'bcrypt'
 import { addToResponse } from '@generates/whip'
 import prisma from '@generates/whip-prisma'
 import email from '@generates/whip-email'
@@ -14,7 +15,7 @@ import createAccount from './middleware/account/createAccount.js'
 import validateVerifyEmail from './middleware/email/validateVerifyEmail.js'
 import getEmailToken from './middleware/token/getEmailToken.js'
 import verifyToken from './middleware/token/verifyToken.js'
-import verifyEmail from './middleware/email/verifyEmail.js'
+import saveVerifiedEmail from './middleware/email/saveVerifiedEmail.js'
 import getAccount from './middleware/account/getAccount.js'
 import createSession from './middleware/session/createSession.js'
 import reduceAccount from './middleware/account/reduceAccount.js'
@@ -33,11 +34,19 @@ const defaults = {
       action: { label: 'Verify your account' }
     }
   },
-  hiddenFields: ['password']
+  hiddenFields: ['password'],
+  dummyPassword: 'ijFu54r6PyNdrN'
 }
 
 export default function accountsPlugin (app, opts = {}) {
   app.opts.accounts = merge({}, defaults, opts)
+
+  //
+  app.opts.accounts.hashedDummyPassword = bcrypt.hashSync(
+    app.opts.accounts.dummyPassword,
+    bcrypt.genSaltSync(app.opts.accounts.hash.rounds)
+  )
+
   if (!app.prisma) prisma(app, opts.prisma)
   if (!app.nodemailer) email(app, opts.email)
   if (!app.opts.sessions) sessions(app, opts.sessions)
@@ -62,7 +71,7 @@ accountsPlugin.verifyEmail = [
   validateVerifyEmail,
   getEmailToken,
   verifyToken,
-  verifyEmail,
+  saveVerifiedEmail,
   getAccount,
   createSession,
   reduceAccount,

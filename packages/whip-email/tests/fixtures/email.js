@@ -30,8 +30,7 @@ app.get('/', async function name (req, res) {
     )
     res.send('Email sent!')
   } else {
-    res.statusCode = 400
-    res.send('No email provided')
+    res.status(400).send('No email provided')
   }
 })
 

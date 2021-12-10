@@ -31,16 +31,19 @@ export default async function createSession (req, res, next) {
     // if (!req.state.body?.csrfToken) {
     //   req.state.body = { csrfToken: ctx.generateCsrfToken() }
     // }
+    req.state.body = {}
 
     // Continue to the next middleware.
-    return next()
-  } else if (req.state.account) {
-    logger.warn(
-      'session.createSession • Disabled account login attempt',
-      { accountId: req.state.account.id }
-    )
-  }
+    next()
+  } else {
+    if (req.state.account) {
+      logger.warn(
+        'session.createSession • Disabled account login attempt',
+        { accountId: req.state.account.id }
+      )
+    }
 
-  // Inform the user that their account credentials are incorrect
-  throw new BadRequestError('Incorrect email or password')
+    // Inform the user that their account credentials are incorrect.
+    throw new BadRequestError('Incorrect email or password')
+  }
 }

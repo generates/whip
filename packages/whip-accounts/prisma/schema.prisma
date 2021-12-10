@@ -21,6 +21,7 @@ model Account {
   enabled       Boolean  @default(value: true)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
+  tokens        Token[]
 
   @@index([email])
   @@index([username])
@@ -34,6 +35,7 @@ enum TokenType {
 model Token {
   id        String    @id
   value     String    @unique
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
   accountId String
   type      TokenType @default(value: email)
   email     String
