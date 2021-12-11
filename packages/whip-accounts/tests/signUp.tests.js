@@ -1,16 +1,14 @@
 import { test } from '@ianwalter/bff'
-// import nrg from '@ianwalter/nrg'
-import { extractToken } from '@generates/whip-email'
+import { extractToken, getTestEmail } from '@generates/whip-email'
 import app from './fixtures/app.js'
-// import { accounts } from '../seeds/01_accounts.js'
+import { accounts } from './fixtures/accounts.js'
 
-// const { Account, getTestEmail, extractEmailToken } = nrg
 const firstName = 'Bilbo'
 const lastName = 'Baggins'
 const email = 'bilbo@example.com'
 const password = '13eip3mlsdf0123mklqslk'
-// const verifiedUser = accounts.find(a => a.firstName === 'Existing Verified')
-// const unverifiedUser = accounts.find(a => a.firstName === 'Existing Unverified')
+const verifiedUser = accounts.find(a => a.firstName === 'Existing Verified')
+const unverifiedUser = accounts.find(a => a.firstName === 'Existing Unverified')
 
 test('Registration • Email required', async t => {
   const payload = { firstName, lastName, password }
@@ -80,40 +78,41 @@ test('Registration • Success', async t => {
   t.expect(record.emailVerified).toBe(true)
 })
 
-// test('Registration • Existing verified email', async t => {
-//   // Register using the verified user's email.
-//   const payload = { ...verifiedUser, firstName, lastName, password }
-//   const response = await app.test('/registration').post(payload)
-//   t.expect(response.statusCode).toBe(201)
-//   t.expect(response.body).toMatchSnapshot()
+test('Registration • Existing verified email', async t => {
+  // Register using the verified user's email.
+  const payload = { ...verifiedUser, firstName, lastName, password }
+  const res = await app.test('/sign-up').post(payload)
+  t.expect(res.statusCode).toBe(201)
+  t.expect(res.body).toEqual({ message: 'Sign up successful!' })
 
-//   // Verify no email was sent to the user.
-//   await t.asleep(1000)
-//   const email = await getTestEmail(e => e.headers.to === verifiedUser.email)
-//   t.expect(email).toBe(undefined)
-// })
+  // Verify no email was sent to the user.
+  await t.asleep(1000)
+  const email = await getTestEmail(e => e.headers.to === verifiedUser.email)
+  t.expect(email).toBe(undefined)
+})
 
-// test('Registration • Existing unverified email', async t => {
-//   // Register using the unverified user's email.
-//   const payload = { ...unverifiedUser, firstName, lastName, password }
-//   let response = await app.test('/registration').post(payload)
-//   t.expect(response.statusCode).toBe(201)
-//   t.expect(response.body).toMatchSnapshot()
+test('Registration • Existing unverified email', async t => {
+  // Register using the unverified user's email.
+  const payload = { ...unverifiedUser, firstName, lastName, password }
+  let res = await app.test('/sign-up').post(payload)
+  t.expect(res.statusCode).toBe(201)
+  t.expect(res.body).toEqual({ message: 'Sign up successful!' })
 
-//   // Extract the Email Verification token.
-//   await t.asleep(1000)
-//   const byEmail = email => email.headers.to === unverifiedUser.email
-//   const { token } = await extractEmailToken(byEmail)
+  // Extract the Email Verification token.
+  await t.asleep(1000)
+  const byEmail = email => email.headers.to === unverifiedUser.email
+  const { token } = await extractToken(byEmail)
 
-//   // Verify the email address.
-//   response = await app.test('/verify-email').post({ ...payload, token })
-//   t.expect(response.statusCode).toBe(201)
-//   t.expect(response.body.account.firstName).toBe(payload.firstName)
-//   t.expect(response.body.account.lastName).toBe(payload.lastName)
+  // Verify the email address.
+  res = await app.test('/verify-email').post({ ...payload, token })
+  t.expect(res.statusCode).toBe(201)
+  t.expect(res.body.account.firstName).toBe(payload.firstName)
+  t.expect(res.body.account.lastName).toBe(payload.lastName)
 
-//   // Verify that the correct account data is stored in the database.
-//   const record = await Account.query().findById(unverifiedUser.id)
-//   t.expect(record.emailVerified).toBe(true)
-//   t.expect(record.firstName).toBe(payload.firstName)
-//   t.expect(record.lastName).toBe(payload.lastName)
-// })
+  // Verify that the correct account data is stored in the database.
+  const where = { email: unverifiedUser.email }
+  const record = await app.prisma.account.findUnique({ where })
+  t.expect(record.emailVerified).toBe(true)
+  t.expect(record.firstName).toBe(payload.firstName)
+  t.expect(record.lastName).toBe(payload.lastName)
+})

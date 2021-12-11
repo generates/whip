@@ -18,8 +18,9 @@ export default async function createAccount (req, res, next) {
     // has not completed the email verification process.
     // ctx.session.unverifiedAccount = true
   } catch (err) {
-    if (err.message.includes('accounts_email_unique')) {
-      const account = await req.prisma.account.findOne({ email: data.email })
+    if (err.meta?.target?.includes('email')) {
+      const where = { email: data.email }
+      const account = await req.prisma.account.findFirst({ where })
       if (account?.emailVerified) {
         // Warn about the request trying to register an email address already
         // associated with an existing, verified account.

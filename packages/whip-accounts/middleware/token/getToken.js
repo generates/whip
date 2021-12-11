@@ -1,5 +1,5 @@
-export default async function getEmailToken (req, res, next) {
-  const logger = req.logger.ns('whip.accounts.email')
+export default async function getToken (req, res, next) {
+  const logger = req.logger.ns('whip.accounts.token')
 
   req.state.account = await req.prisma.account
     .findFirst({
@@ -8,7 +8,7 @@ export default async function getEmailToken (req, res, next) {
       include: { tokens: true }
     })
 
-  logger.debug('getEmailToken • Account', req.state.account)
+  logger.debug('getToken • Account', req.state.account)
 
   next()
 }
