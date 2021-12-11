@@ -7,6 +7,7 @@ import sessions from '@generates/whip-sessions'
 import signUpValidator from './validators/signUpValidator.js'
 import signInValidator from './validators/signInValidator.js'
 import verifyEmailValidator from './validators/verifyEmailValidator.js'
+import resetPasswordValidator from './validators/resetPasswordValidator.js'
 import createToken from './middleware/token/createToken.js'
 import insertToken from './middleware/token/insertToken.js'
 import createEmailVerificationEmail from './middleware/email/createEmailVerificationEmail.js'
@@ -33,6 +34,7 @@ const defaults = {
   signUpValidator,
   signInValidator,
   verifyEmailValidator,
+  resetPasswordValidator,
   hash: {
     bytes: 48,
     rounds: 12
