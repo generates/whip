@@ -1,7 +1,7 @@
 import { create } from '@generates/whip'
 import accounts from '../../index.js'
 
-const app = create({ logger: { level: 'error', pretty: true } })
+const app = create({ logger: { level: 'debug', pretty: true } })
 
 app.add({
   plugin: accounts,

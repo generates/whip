@@ -14,10 +14,10 @@ export default function insertToken (opts) {
 
     // Add response data to ctx.state.
     const isEmail = opts.type === 'email'
+    req.state.body = { message: opts.message }
     if (!req.state.body.message) {
       const t = isEmail ? 'Email Verification' : 'Forgot Password'
-      req.state.body.message = opts.message ||
-        `${t} request submitted successfully`
+      req.state.body.message = `${t} request submitted successfully`
     }
 
     const data = req.state.validation.data
