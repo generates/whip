@@ -25,6 +25,8 @@ app.post('/sign-in', ...accounts.signIn)
 
 app.post('/forgot-password', ...accounts.forgotPassword)
 
+app.post('/resend-verify-email', ...accounts.resendVerifyEmail)
+
 app.get('/', async function accounts (req, res) {
   const accounts = await req.prisma.account.findMany()
   res.send(accounts.map(account => {

@@ -71,7 +71,7 @@ export default function accountsPlugin (app, opts = {}) {
   if (!app.opts.sessions) sessions(app, opts.sessions)
 }
 
-accountsPlugin.startEmailVerification = [
+accountsPlugin.sendVerifyEmail = [
   createToken,
   insertToken({ type: 'email' }),
   createEmailVerificationEmail,
@@ -82,7 +82,7 @@ accountsPlugin.signUp = [
   validateAccount,
   hashPassword,
   createAccount,
-  ...accountsPlugin.startEmailVerification,
+  ...accountsPlugin.sendVerifyEmail,
   addToResponse
 ]
 
@@ -138,5 +138,12 @@ accountsPlugin.saveAccount = [
   hashPassword,
   saveAccount,
   reduceAccount,
+  addToResponse
+]
+
+accountsPlugin.resendVerifyEmail = [
+  validateEmail,
+  getAccount,
+  ...accountsPlugin.sendVerifyEmail,
   addToResponse
 ]
