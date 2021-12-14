@@ -29,6 +29,7 @@ import resetSession from './middleware/session/resetSession.js'
 import validateEmail from './middleware/email/validateEmail.js'
 import createResetPasswordEmail from './middleware/email/createResetPasswordEmail.js'
 import validateResetPassword from './middleware/password/validateResetPassword.js'
+import setEmail from './middleware/email/setEmail.js'
 
 const defaults = {
   name: 'Account',
@@ -90,6 +91,7 @@ accountsPlugin.verifyEmail = [
   validateVerifyEmail,
   getToken,
   verifyToken,
+  setEmail,
   saveAccount,
   createSession,
   reduceAccount,
@@ -145,5 +147,11 @@ accountsPlugin.resendVerifyEmail = [
   validateEmail,
   getAccount,
   ...accountsPlugin.sendVerifyEmail,
+  addToResponse
+]
+
+accountsPlugin.getSession = [
+  getAccount,
+  reduceAccount,
   addToResponse
 ]

@@ -17,9 +17,9 @@ test.only('Verify Email • Success', async t => {
   // Verify the email verification email was received and extract the token.
   await t.asleep(1000)
   const byEmail = e => e.headers.to === willVerifyUser.email
-  const { email, token } = await extractToken(byEmail)
+  const { email: { html, ...email }, token } = await extractToken(byEmail)
   const url = '/verify-email?email=will_verify_test@example.com&token='
-  t.expect(email.html).toContain(url)
+  t.expect(html).toContain(url)
   t.expect(email).toMatchSnapshot({
     id: t.expect.any(String),
     messageId: t.expect.any(String),
@@ -36,7 +36,14 @@ test.only('Verify Email • Success', async t => {
   const payload = { ...willVerifyUser, token }
   let res = await app.test('/verify-email').post(payload)
   t.expect(res.statusCode).toBe(201)
-  t.expect(res.body).toMatchSnapshot({ csrfToken: t.expect.any(String) })
+  t.expect(res.body).toMatchSnapshot({
+    // TODO:
+    // csrfToken: t.expect.any(String)
+    account: {
+      createdAt: t.expect.any(String),
+      updatedAt: t.expect.any(String)
+    }
+  })
 
   // Verify that emailVerified is set to true in the database.
   const where = { id: willVerifyUser.id }
@@ -44,7 +51,7 @@ test.only('Verify Email • Success', async t => {
   t.expect(record.emailVerified).toBe(true)
 
   // Verify that the session was created.
-  res = await app.test('/account', res).get()
+  res = await app.test('/session', res).get()
   t.expect(res.statusCode).toBe(200)
 })
 
