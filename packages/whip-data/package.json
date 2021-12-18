@@ -1,11 +1,10 @@
 {
   "name": "@generates/whip-data",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "UNLICENSED",
   "type": "module",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "publishConfig": {
     "access": "public"
   },
