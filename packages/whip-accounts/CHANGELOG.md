@@ -1,5 +1,16 @@
 # @generates/whip-accounts
 
+## 0.0.5
+
+### Patch Changes
+
+- 8f2d537: Update dependency @generates/extractor to ^1.3.2
+- Updated dependencies [913e70c]
+- Updated dependencies [d0908b4]
+- Updated dependencies [ffba152]
+  - @generates/whip@0.2.1
+  - @generates/whip-data@0.0.2
+
 ## 0.0.4
 
 ### Patch Changes
