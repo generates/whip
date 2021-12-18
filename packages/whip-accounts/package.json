@@ -17,6 +17,7 @@
     "@generates/merger": "^0.1.3",
     "@generates/whip": "*",
     "@generates/whip-data": "*",
+    "@generates/whip-email": "*",
     "@generates/whip-prisma": "*",
     "@generates/whip-sessions": "*",
     "@ianwalter/url": "^2.0.0",
