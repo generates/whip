@@ -1,13 +1,15 @@
+import http from 'http'
 import getHostUrl from '../utilities/getHostUrl.js'
 
-export default function start (port, hostname) {
+export default function start (port, hostname, callback) {
   const app = this
 
-  return new Promise((resolve, reject) => {
-    app.listen(port, hostname, function listenCallback (err) {
-      if (err) reject(err)
+  // Create the server instance by specifying the app's callback as the handler.
+  const server = http.createServer(callback || app.handler)
 
-      const server = app.server
+  return new Promise((resolve, reject) => {
+    server.listen(port, hostname, function listenCallback (err) {
+      if (err) reject(err)
 
       // Prefer the port and hostname passed as arguments to those configured in
       // the app even if the port is 0 (which means use a random unused port) so

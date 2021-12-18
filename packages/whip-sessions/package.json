@@ -1,0 +1,19 @@
+{
+  "name": "@generates/whip-sessions",
+  "version": "0.0.0",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "example.name": "../../example.js ./tests/fixtures/name.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@generates/merger": "^0.1.3",
+    "@generates/whip-prisma": "*",
+    "connect-pg-simple": "^7.0.0",
+    "express-session": "^1.17.2"
+  }
+}

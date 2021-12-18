@@ -1,17 +1,26 @@
-function end (res, body, headers = {}) {
-  res.writeHead(res.statusCode || 200, headers)
-  res.end(body)
-}
-
 export default function responseMiddleware (req, res, next) {
-  res.send = function send (body) {
-    res.log(body)
-    end(res, body)
+  res.status = function status (statusCode) {
+    req.state.statusCode = statusCode
+    return res
   }
 
-  res.json = function json (body) {
-    res.log(body)
-    end(res, JSON.stringify(body), { 'Content-Type': 'application/json' })
+  res.set = function set (header, value) {
+    req.state.headers[header] = value
+    return res
+  }
+
+  res.send = function send (body) {
+    const statusCode = req.state.statusCode || 200
+    body = body || req.state.body
+    if (typeof body === 'string') {
+      res.writeHead(statusCode, req.state.headers)
+      res.end(body)
+    } else {
+      res
+        .set('Content-Type', 'application/json')
+        .writeHead(statusCode, req.state.headers)
+      res.end(JSON.stringify(body))
+    }
   }
 
   next()

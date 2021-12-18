@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Verify Email • Success 1`] = `
+Object {
+  "date": Any<String>,
+  "envelope": Object {
+    "from": Object {
+      "address": "",
+      "args": false,
+    },
+    "host": "[127.0.0.1]",
+    "remoteAddress": Any<String>,
+    "to": Array [
+      Object {
+        "address": "will_verify_test@example.com",
+        "args": false,
+      },
+    ],
+  },
+  "headers": Any<Object>,
+  "id": Any<String>,
+  "messageId": Any<String>,
+  "priority": "normal",
+  "read": false,
+  "source": Any<String>,
+  "subject": "Verify your email",
+  "time": Any<String>,
+  "to": Array [
+    Object {
+      "address": "will_verify_test@example.com",
+      "name": "",
+    },
+  ],
+}
+`;
+
+exports[`Verify Email • Success 2`] = `
+Object {
+  "account": Object {
+    "createdAt": Any<String>,
+    "email": "will_verify_test@example.com",
+    "emailVerified": true,
+    "enabled": true,
+    "firstName": "Will Verify",
+    "id": "willVerify",
+    "lastName": "Test",
+    "updatedAt": Any<String>,
+    "username": null,
+  },
+}
+`;
