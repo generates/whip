@@ -1,5 +1,11 @@
 # @generates/whip-accounts
 
+## 0.0.4
+
+### Patch Changes
+
+- f40eb0b: Moving whip to peer deps
+
 ## 0.0.3
 
 ### Patch Changes
