@@ -1,6 +1,13 @@
 # @generates/whip-accounts
 
+## 0.0.2
+
+### Patch Changes
+
+- e0747ce: Adding missing whip-email dep
+
 ## 0.0.1
+
 ### Patch Changes
 
 - 500a0df: Initial release
