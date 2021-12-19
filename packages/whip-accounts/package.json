@@ -1,6 +1,6 @@
 {
   "name": "@generates/whip-accounts",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "license": "UNLICENSED",
   "type": "module",
   "main": "index.js",

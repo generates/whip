@@ -1,5 +1,11 @@
 # @generates/whip-data
 
+## 0.0.3
+
+### Patch Changes
+
+- db2030e: Fixing validate and createSession middleware
+
 ## 0.0.2
 
 ### Patch Changes
