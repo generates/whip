@@ -1,5 +1,15 @@
 # @generates/whip-accounts
 
+## 0.0.6
+
+### Patch Changes
+
+- db2030e: Fixing validate and createSession middleware
+- Updated dependencies [db2030e]
+- Updated dependencies [aec0aff]
+  - @generates/whip-data@0.0.3
+  - @generates/whip-email@0.0.2
+
 ## 0.0.5
 
 ### Patch Changes
