@@ -7,15 +7,15 @@ export default function start (port, hostname, callback) {
   // Create the server instance by specifying the app's callback as the handler.
   const server = http.createServer(callback || app.handler)
 
+  // Prefer the port and hostname passed as arguments to those configured in
+  // the app even if the port is 0 (which means use a random unused port) so
+  // that they can be overridden when serving (e.g. in a test).
+  const portToUse = port !== undefined ? port : (app.opts.port || 0)
+  const hostnameToUse = hostname || app.opts.hostname
+  
   return new Promise((resolve, reject) => {
-    server.listen(port, hostname, function listenCallback (err) {
+    server.listen(portToUse, hostnameToUse, function listenCallback (err) {
       if (err) reject(err)
-
-      // Prefer the port and hostname passed as arguments to those configured in
-      // the app even if the port is 0 (which means use a random unused port) so
-      // that they can be overridden when serving (e.g. in a test).
-      const portToUse = port !== undefined ? port : (app.opts.port || 0)
-      const hostnameToUse = hostname || app.opts.hostname
 
       // Set the server URL (the local URL which can be different from the
       // base URL) so that whatever is starting the server (e.g. tests) can
