@@ -12,7 +12,7 @@ export default function start (port, hostname, callback) {
   // that they can be overridden when serving (e.g. in a test).
   const portToUse = port !== undefined ? port : (app.opts.port || 0)
   const hostnameToUse = hostname || app.opts.hostname
-  
+
   return new Promise((resolve, reject) => {
     server.listen(portToUse, hostnameToUse, function listenCallback (err) {
       if (err) reject(err)

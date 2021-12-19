@@ -4,7 +4,11 @@ import Stencil from '@radval/stencil'
 export { default as getTestEmail } from './lib/utilities/getTestEmail.js'
 export { default as extractToken } from './lib/utilities/extractToken.js'
 
-const defaults = {}
+const defaults = {
+  transport: {
+    host: 'localhost'
+  }
+}
 
 export default function emailPlugin (app, opts) {
   app.opts.email = Object.assign({}, defaults, opts)
