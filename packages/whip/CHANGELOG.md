@@ -1,5 +1,11 @@
 # @generates/whip
 
+## 0.2.2
+
+### Patch Changes
+
+- a0f5794: Update start.js
+
 ## 0.2.1
 
 ### Patch Changes
