@@ -9,13 +9,13 @@ const unverifiedUser = accounts.find(a => a.firstName === 'Unverified')
 test('Login • No email', async t => {
   const res = await app.test('/sign-in').post({ password })
   t.expect(res.statusCode).toBe(400)
-  t.expect(res.body).toEqual({ message: 'Incorrect email or password' })
+  t.expect(res.body).toMatchSnapshot()
 })
 
 test('Login • No password', async t => {
   const res = await app.test('/sign-in').post({ email: generalUser.email })
   t.expect(res.statusCode).toBe(400)
-  t.expect(res.body).toEqual({ message: 'Incorrect email or password' })
+  t.expect(res.body).toMatchSnapshot()
 })
 
 test('Login • Invalid credentials', async t => {
@@ -31,7 +31,7 @@ test('Login • Valid credentials', async t => {
   t.expect(res.body).toMatchSnapshot({ csrfToken: t.expect.any(String) })
 })
 
-test.only('Login • Disabled user', async t => {
+test('Login • Disabled user', async t => {
   const res = await app.test('/sign-in').post({ ...disabledUser, password })
   t.expect(res.statusCode).toBe(400)
   t.expect(res.body).toEqual({ message: 'Incorrect email or password' })

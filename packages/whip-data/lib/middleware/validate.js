@@ -1,11 +1,11 @@
 import { ValidationError } from '@generates/whip'
 
-export default async function validate (opts) {
+export default function validate (opts) {
   if (!opts?.validator) {
     throw new Error('Missing validator option for validate middleware')
   }
 
-  return function validateMiddleware (req, res, next) {
+  return async function validateMiddleware (req, res, next) {
     const logger = req.logger.ns('whip.data')
     logger.debug(opts.validator, { body: req.body })
 

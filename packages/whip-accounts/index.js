@@ -55,7 +55,7 @@ export default function accountsPlugin (app, opts = {}) {
   app.opts.accounts = merge({}, defaults, opts)
 
   //
-  merge(app.opts.validators, {
+  app.opts.validators = merge({}, app.opts.validators, {
     signUpValidator,
     verifyEmailValidator,
     signInValidator,
@@ -83,7 +83,7 @@ accountsPlugin.sendVerifyEmail = [
 ]
 
 accountsPlugin.signUp = [
-  validate('signUpValidator'),
+  validate({ validator: 'signUpValidator' }),
   hashPassword,
   createAccount,
   ...accountsPlugin.sendVerifyEmail,
@@ -91,7 +91,7 @@ accountsPlugin.signUp = [
 ]
 
 accountsPlugin.verifyEmail = [
-  validate('verifyEmailValidator'),
+  validate({ validator: 'verifyEmailValidator' }),
   getToken,
   verifyToken,
   setEmail,
@@ -102,7 +102,7 @@ accountsPlugin.verifyEmail = [
 ]
 
 accountsPlugin.signIn = [
-  validate('signInValidator'),
+  validate({ validator: 'signInValidator' }),
   getAccount,
   comparePasswords,
   createSession,
@@ -116,7 +116,7 @@ accountsPlugin.signOut = [
 ]
 
 accountsPlugin.forgotPassword = [
-  validate('emailValidator'),
+  validate({ validator: 'emailValidator' }),
   createToken,
   getAccount,
   insertToken({ type: 'password' }),
@@ -126,7 +126,7 @@ accountsPlugin.forgotPassword = [
 ]
 
 accountsPlugin.resetPassword = [
-  validate('resetPasswordValidator'),
+  validate({ validator: 'resetPasswordValidator' }),
   getToken,
   verifyToken,
   hashPassword,
@@ -137,7 +137,7 @@ accountsPlugin.resetPassword = [
 ]
 
 accountsPlugin.saveAccount = [
-  validate('accountValidator'),
+  validate({ validator: 'accountValidator' }),
   getAccount,
   comparePasswords,
   hashPassword,
@@ -147,7 +147,7 @@ accountsPlugin.saveAccount = [
 ]
 
 accountsPlugin.resendVerifyEmail = [
-  validate('emailValidator'),
+  validate({ validator: 'emailValidator' }),
   getAccount,
   ...accountsPlugin.sendVerifyEmail,
   addToResponse
