@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt'
+import { BadRequestError } from '@generates/whip'
 
 export default async function comparePasswords (req, res, next) {
   const logger = req.logger.ns('whip.accounts.password')
@@ -17,16 +18,12 @@ export default async function comparePasswords (req, res, next) {
     const debug = { payload, password, passwordsMatch }
     logger.debug('password.comparePasswords', debug)
 
-    if (!passwordsMatch && payload.email) {
+    if (!passwordsMatch && req.session?.account) {
+      throw new BadRequestError('Incorrect password')
+    } else if (!passwordsMatch) {
       // The error message must be the same message as the one in
       // session/authenticate.
-      // TODO:
-      // throw new BadRequestError('Incorrect email or password')
-      throw new Error('Incorrect email or password')
-    } else if (!passwordsMatch) {
-      // TODO:
-      // throw new BadRequestError('Incorrect password')
-      throw new Error('Incorrect password')
+      throw new BadRequestError('Incorrect email or password')
     }
   } else {
     logger.debug('password.comparePasswords skipped since password is empty')
