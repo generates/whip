@@ -1,10 +1,12 @@
 import { merge } from '@generates/merger'
 import bcrypt from 'bcrypt'
 import { addToResponse } from '@generates/whip'
+import { validate } from '@generates/whip-data'
 import prisma from '@generates/whip-prisma'
 import email from '@generates/whip-email'
 import sessions from '@generates/whip-sessions'
 import signUpValidator from './validators/signUpValidator.js'
+import accountValidator from './validators/accountValidator.js'
 import signInValidator from './validators/signInValidator.js'
 import verifyEmailValidator from './validators/verifyEmailValidator.js'
 import emailValidator from './validators/emailValidator.js'
@@ -13,10 +15,8 @@ import createToken from './middleware/token/createToken.js'
 import insertToken from './middleware/token/insertToken.js'
 import createEmailVerificationEmail from './middleware/email/createEmailVerificationEmail.js'
 import sendEmail from './middleware/email/sendEmail.js'
-import validateAccount from './middleware/account/validateAccount.js'
 import hashPassword from './middleware/password/hashPassword.js'
 import createAccount from './middleware/account/createAccount.js'
-import validateVerifyEmail from './middleware/email/validateVerifyEmail.js'
 import getToken from './middleware/token/getToken.js'
 import verifyToken from './middleware/token/verifyToken.js'
 import saveAccount from './middleware/account/saveAccount.js'
@@ -24,20 +24,12 @@ import getAccount from './middleware/account/getAccount.js'
 import createSession from './middleware/session/createSession.js'
 import reduceAccount from './middleware/account/reduceAccount.js'
 import comparePasswords from './middleware/password/comparePasswords.js'
-import validateCreateSession from './middleware/session/validateCreateSession.js'
 import resetSession from './middleware/session/resetSession.js'
-import validateEmail from './middleware/email/validateEmail.js'
 import createResetPasswordEmail from './middleware/email/createResetPasswordEmail.js'
-import validateResetPassword from './middleware/password/validateResetPassword.js'
 import setEmail from './middleware/email/setEmail.js'
 
 const defaults = {
   name: 'Account',
-  signUpValidator,
-  signInValidator,
-  verifyEmailValidator,
-  resetPasswordValidator,
-  emailValidator,
   hash: {
     bytes: 48,
     rounds: 12
@@ -59,7 +51,18 @@ const defaults = {
 }
 
 export default function accountsPlugin (app, opts = {}) {
+  //
   app.opts.accounts = merge({}, defaults, opts)
+
+  //
+  merge(app.opts.validators, {
+    signUpValidator,
+    verifyEmailValidator,
+    signInValidator,
+    emailValidator,
+    accountValidator,
+    resetPasswordValidator
+  })
 
   //
   app.opts.accounts.hashedDummyPassword = bcrypt.hashSync(
@@ -80,7 +83,7 @@ accountsPlugin.sendVerifyEmail = [
 ]
 
 accountsPlugin.signUp = [
-  validateAccount,
+  validate('signUpValidator'),
   hashPassword,
   createAccount,
   ...accountsPlugin.sendVerifyEmail,
@@ -88,7 +91,7 @@ accountsPlugin.signUp = [
 ]
 
 accountsPlugin.verifyEmail = [
-  validateVerifyEmail,
+  validate('verifyEmailValidator'),
   getToken,
   verifyToken,
   setEmail,
@@ -99,7 +102,7 @@ accountsPlugin.verifyEmail = [
 ]
 
 accountsPlugin.signIn = [
-  validateCreateSession,
+  validate('signInValidator'),
   getAccount,
   comparePasswords,
   createSession,
@@ -113,7 +116,7 @@ accountsPlugin.signOut = [
 ]
 
 accountsPlugin.forgotPassword = [
-  validateEmail,
+  validate('emailValidator'),
   createToken,
   getAccount,
   insertToken({ type: 'password' }),
@@ -123,7 +126,7 @@ accountsPlugin.forgotPassword = [
 ]
 
 accountsPlugin.resetPassword = [
-  validateResetPassword,
+  validate('resetPasswordValidator'),
   getToken,
   verifyToken,
   hashPassword,
@@ -134,7 +137,7 @@ accountsPlugin.resetPassword = [
 ]
 
 accountsPlugin.saveAccount = [
-  validateAccount,
+  validate('accountValidator'),
   getAccount,
   comparePasswords,
   hashPassword,
@@ -144,7 +147,7 @@ accountsPlugin.saveAccount = [
 ]
 
 accountsPlugin.resendVerifyEmail = [
-  validateEmail,
+  validate('emailValidator'),
   getAccount,
   ...accountsPlugin.sendVerifyEmail,
   addToResponse

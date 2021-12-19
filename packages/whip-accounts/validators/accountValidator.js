@@ -11,5 +11,7 @@ import {
 export default new SchemaValidator({
   email: { isEmail, trim, lowercase, canBeEmpty },
   username: { isString, trim, lowercase, canBeEmpty },
-  password: { isStrongPassword }
+  firstName: { isString, trim, canBeEmpty },
+  lastName: { isString, trim, canBeEmpty },
+  password: { isStrongPassword, canBeEmpty }
 })
