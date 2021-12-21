@@ -1,5 +1,11 @@
 # @generates/whip
 
+## 0.2.4
+
+### Patch Changes
+
+- 9b4210c: Fixing test request method
+
 ## 0.2.3
 
 ### Patch Changes
