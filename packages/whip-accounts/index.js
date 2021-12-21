@@ -27,6 +27,7 @@ import comparePasswords from './middleware/password/comparePasswords.js'
 import resetSession from './middleware/session/resetSession.js'
 import createResetPasswordEmail from './middleware/email/createResetPasswordEmail.js'
 import setEmail from './middleware/email/setEmail.js'
+import checkSession from './middleware/session/checkSession.js'
 
 const defaults = {
   name: 'Account',
@@ -136,7 +137,9 @@ accountsPlugin.resetPassword = [
   addToResponse
 ]
 
+accountsPlugin.checkSession = checkSession
 accountsPlugin.saveAccount = [
+  checkSession,
   validate({ validator: 'accountValidator' }),
   getAccount,
   comparePasswords,
