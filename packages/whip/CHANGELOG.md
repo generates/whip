@@ -1,5 +1,11 @@
 # @generates/whip
 
+## 0.2.3
+
+### Patch Changes
+
+- ac1ac4c: Adding checkSession middleware
+
 ## 0.2.2
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @generates/whip-accounts
 
+## 0.0.8
+
+### Patch Changes
+
+- ac1ac4c: Adding checkSession middleware
+- Updated dependencies [ac1ac4c]
+  - @generates/whip@0.2.3
+
 ## 0.0.7
 
 ### Patch Changes
