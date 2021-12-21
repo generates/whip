@@ -37,8 +37,14 @@ export default function test (path, opts) {
       return this.requestWithCsrf('delete', { ...opts, body })
     },
     async request (method, opts) {
+      const newOpts = { body: opts.body, headers: {} }
+      if (opts.rawHeaders?.includes('Set-Cookie')) {
+        const index = opts.rawHeaders.indexOf('Set-Cookie')
+        newOpts.headers.cookie = opts.rawHeaders[index + 1]
+      }
+
       const server = await app.start(0)
-      const response = await requester[method](server.url + path, opts)
+      const response = await requester[method](server.url + path, newOpts)
       await server.destroy()
       return response
     },
@@ -57,11 +63,11 @@ export default function test (path, opts) {
       //   // Add the CSRF token and session cookie to the request headers.
       //   const csrfToken = response.body.csrfToken
       // const cookie = res.headers['set-cookie']
-      opts.headers = {
-        ...opts.headers
-        // ...csrfToken ? { 'csrf-token': csrfToken } : {},
-        // ...cookie ? { cookie } : {}
-      }
+      // opts.headers = {
+      //   ...opts.headers
+      //   ...csrfToken ? { 'csrf-token': csrfToken } : {},
+      //   ...cookie ? { cookie } : {}
+      // }
 
       //   if (logger) {
       //     logger.debug(
