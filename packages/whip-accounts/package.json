@@ -1,6 +1,6 @@
 {
   "name": "@generates/whip-accounts",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "license": "UNLICENSED",
   "type": "module",
   "main": "index.js",
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@generates/whip": "^0.2.1"
+    "@generates/whip": "^0.2.3"
   },
   "dependencies": {
     "@generates/extractor": "^1.3.2",

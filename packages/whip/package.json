@@ -1,6 +1,6 @@
 {
   "name": "@generates/whip",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "license": "UNLICENSED",
   "type": "module",
   "main": "index.js",
