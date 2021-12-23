@@ -1,5 +1,14 @@
 # @generates/whip-accounts
 
+## 0.0.9
+
+### Patch Changes
+
+- Updated dependencies [c64306c]
+- Updated dependencies [3f7b899]
+  - @generates/whip-prisma@0.0.2
+  - @generates/whip-sessions@0.0.2
+
 ## 0.0.8
 
 ### Patch Changes
