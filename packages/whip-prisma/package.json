@@ -1,6 +1,6 @@
 {
   "name": "@generates/whip-prisma",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "UNLICENSED",
   "type": "module",
   "main": "index.js",
