@@ -15,6 +15,9 @@ export default function responseMiddleware (req, res, next) {
     if (typeof body === 'string') {
       res.writeHead(statusCode, req.state.headers)
       res.end(body)
+    } else if (typeof body?.pipe === 'function') {
+      res.writeHead(statusCode, req.state.headers)
+      body.pipe(res)
     } else {
       res
         .set('Content-Type', 'application/json')

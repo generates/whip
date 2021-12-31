@@ -22,3 +22,14 @@ services:
     ports:
       - $SMTP_PORT:25
       - $MAILDEV_PORT:80
+
+  minio:
+    image: minio/minio
+    ports:
+      - $MINIO_PORT:9000
+      - $MINIO_CONSOLE_PORT:$MINIO_CONSOLE_PORT
+    entrypoint: bash -c 'mkdir -p /opt/minio/whip && minio server --console-address :$MINIO_CONSOLE_PORT /opt/minio'
+    environment:
+      MINIO_CONSOLE_PORT: $MINIO_CONSOLE_PORT
+      MINIO_ROOT_USER: $MINIO_ROOT_USER
+      MINIO_ROOT_PASSWORD: $MINIO_ROOT_PASSWORD
