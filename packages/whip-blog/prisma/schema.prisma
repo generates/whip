@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id            String   @id
+  email         String   @unique
+  username      String?  @unique
+  firstName     String?
+  lastName      String?
+  password      String
+  emailVerified Boolean  @default(value: false)
+  enabled       Boolean  @default(value: true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+  tokens        Token[]
+  blogPosts     BlogPost[]
+
+  @@index([email])
+  @@index([username])
+}
+
+enum TokenType {
+  email
+  password
+}
+
+model Token {
+  id        String    @id
+  value     String    @unique
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  accountId String
+  type      TokenType @default(value: email)
+  email     String
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+
+  @@index([email])
+  @@index([accountId])
+}
+
+model Session {
+  sid       String   @id
+  sess      Json
+  expire    DateTime
+
+  @@index([expire])
+}
+
+model BlogPost {
+  id        String   @id
+  title     String
+  slug      String
+  body      String
+  status    String   @default(value: "draft")
+  account         Account           @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  accountId       String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  tags BlogTagOnBlogPost[]
+}
+
+model BlogTag {
+  id        String   @id
+  name      String   @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  posts BlogTagOnBlogPost[]
+}
+
+model BlogTagOnBlogPost {
+  id        String   @id
+  post BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String
+  tag  BlogTag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tagId String
+}

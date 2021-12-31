@@ -1,8 +1,8 @@
 {
-  "name": "@generates/whip-billing",
+  "name": "@generates/whip-stripe",
   "version": "0.0.0",
   "license": "UNLICENSED",
   "dependencies": {
-    "@generates/whip-prisma": "0.0.2"
+    "stripe": "^8.195.0"
   }
 }

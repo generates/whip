@@ -1,8 +1,8 @@
 {
-  "name": "@generates/whip-billing",
+  "name": "@generates/whip-storage",
   "version": "0.0.0",
   "license": "UNLICENSED",
   "dependencies": {
-    "@generates/whip-prisma": "0.0.2"
+    "@aws-sdk/client-s3": "^3.45.0"
   }
 }

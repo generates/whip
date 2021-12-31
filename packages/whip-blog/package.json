@@ -1,4 +1,14 @@
 {
   "name": "@generates/whip-blog",
-  "license": "UNLICENSED"
+  "version": "0.0.0",
+  "license": "UNLICENSED",
+  "scripts": {
+    "test": "bff"
+  },
+  "dependencies": {
+    "@generates/whip-prisma": "0.0.2"
+  },
+  "devDependencies": {
+    "@ianwalter/bff": "^11.2.2"
+  }
 }
