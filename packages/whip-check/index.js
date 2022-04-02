@@ -131,14 +131,17 @@ export const phone = define('phone', function phone (input) {
   return parsePhoneNumber(input)
 })
 
-export function check (checker) {
-  if (!checker) throw new Error('Missing checker for check middleware')
+export const lowercased = coerce(string(), string(), i => i.toLowerCase())
+
+export function check (checkerName) {
+  if (!checkerName) throw new Error('Missing checker for check middleware')
 
   return async function checkMiddleware (req, res, next) {
     const logger = req.logger.ns('whip.check')
-    logger.debug('Input', req.body)
+    const checker = req.opts.checkers[checkerName]
+    logger.debug('Validate', { checkerName, body: req.body })
 
-    const [err, input] = checker.validate(req.body)
+    const [err, input] = checker.validate(req.body, { coerce: true })
     if (err) throw err
     req.state.input = input
     next()

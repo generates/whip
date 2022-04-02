@@ -5,12 +5,12 @@ import { validate } from '@generates/whip-data'
 import prisma from '@generates/whip-prisma'
 import email from '@generates/whip-email'
 import sessions from '@generates/whip-sessions'
-import signUpValidator from './validators/signUpValidator.js'
-import accountValidator from './validators/accountValidator.js'
-import signInValidator from './validators/signInValidator.js'
-import verifyEmailValidator from './validators/verifyEmailValidator.js'
-import emailValidator from './validators/emailValidator.js'
-import resetPasswordValidator from './validators/resetPasswordValidator.js'
+import signUpChecker from './validators/signUpChecker.js'
+import accountChecker from './validators/accountChecker.js'
+import signInChecker from './validators/signInChecker.js'
+import verifyEmailChecker from './validators/verifyEmailChecker.js'
+import emailChecker from './validators/emailChecker.js'
+import resetPasswordChecker from './validators/resetPasswordChecker.js'
 import createToken from './middleware/token/createToken.js'
 import insertToken from './middleware/token/insertToken.js'
 import createEmailVerificationEmail from './middleware/email/createEmailVerificationEmail.js'
@@ -56,13 +56,13 @@ export default function accountsPlugin (app, opts = {}) {
   app.opts.accounts = merge({}, defaults, opts)
 
   //
-  app.opts.validators = merge({}, app.opts.validators, {
-    signUpValidator,
-    verifyEmailValidator,
-    signInValidator,
-    emailValidator,
-    accountValidator,
-    resetPasswordValidator
+  app.opts.checkers = merge({}, app.opts.checkers, {
+    signUpChecker,
+    verifyEmailChecker,
+    signInChecker,
+    emailChecker,
+    accountChecker,
+    resetPasswordChecker
   })
 
   //
@@ -84,7 +84,7 @@ accountsPlugin.sendVerifyEmail = [
 ]
 
 accountsPlugin.signUp = [
-  validate({ validator: 'signUpValidator' }),
+  validate('signUpChecker'),
   hashPassword,
   createAccount,
   ...accountsPlugin.sendVerifyEmail,
@@ -92,7 +92,7 @@ accountsPlugin.signUp = [
 ]
 
 accountsPlugin.verifyEmail = [
-  validate({ validator: 'verifyEmailValidator' }),
+  validate('verifyEmailChecker'),
   getToken,
   verifyToken,
   setEmail,
@@ -103,7 +103,7 @@ accountsPlugin.verifyEmail = [
 ]
 
 accountsPlugin.signIn = [
-  validate({ validator: 'signInValidator' }),
+  validate('signInChecker'),
   getAccount,
   comparePasswords,
   createSession,
@@ -117,7 +117,7 @@ accountsPlugin.signOut = [
 ]
 
 accountsPlugin.forgotPassword = [
-  validate({ validator: 'emailValidator' }),
+  validate('emailChecker'),
   createToken,
   getAccount,
   insertToken({ type: 'password' }),
@@ -127,7 +127,7 @@ accountsPlugin.forgotPassword = [
 ]
 
 accountsPlugin.resetPassword = [
-  validate({ validator: 'resetPasswordValidator' }),
+  validate('resetPasswordChecker'),
   getToken,
   verifyToken,
   hashPassword,
@@ -140,7 +140,7 @@ accountsPlugin.resetPassword = [
 accountsPlugin.checkSession = checkSession
 accountsPlugin.saveAccount = [
   checkSession,
-  validate({ validator: 'accountValidator' }),
+  validate('accountChecker'),
   getAccount,
   comparePasswords,
   hashPassword,
@@ -150,7 +150,7 @@ accountsPlugin.saveAccount = [
 ]
 
 accountsPlugin.resendVerifyEmail = [
-  validate({ validator: 'emailValidator' }),
+  validate('emailChecker'),
   getAccount,
   ...accountsPlugin.sendVerifyEmail,
   addToResponse
