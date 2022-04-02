@@ -48,8 +48,8 @@ import {
   partial,
   pick,
 
-  define,
   coerce,
+  define,
   refine,
 
   StructError
@@ -108,30 +108,34 @@ export {
   partial,
   pick,
 
-  define,
   coerce,
+  define,
   refine,
 
   StructError
 }
 
-// FIXME: options?
 export const defaultEmailOptions = { minDomainAtoms: 2 }
-export const email = define('email', function email (input) {
-  return isEmail.validate(input, defaultEmailOptions)
+export const email = opts => define('email', function email (input) {
+  return isEmail.validate(input, { ...defaultEmailOptions, ...opts })
 })
 
 // FIXME: inputs?
-export const password = define('password', function password (input) {
-  return zxcvbn(input)
+export const defaultPasswordOptions = { minScore: 3 }
+export const password = opts => define('password', function password (input) {
+  const config = { ...defaultPasswordOptions, ...opts }
+  const result = zxcvbn(input)
+  return result.score >= config.minScore
 })
 
-// FIXME: country?
-export const phone = define('phone', function phone (input) {
-  return parsePhoneNumber(input)
+export const defaultPhoneOptions = { country: 'US' }
+export const phone = opts => define('phone', function phone (input) {
+  return parsePhoneNumber(input, { ...defaultPhoneOptions, ...opts })
 })
 
-export const lowercased = coerce(string(), string(), i => i.toLowerCase())
+export function lowercased (struct) {
+  return coerce(struct, string(), i => i?.toLowerCase())
+}
 
 export function check (checkerName) {
   if (!checkerName) throw new Error('Missing checker for check middleware')
@@ -141,7 +145,7 @@ export function check (checkerName) {
     const checker = req.opts.checkers[checkerName]
     logger.debug('Validate', { checkerName, body: req.body })
 
-    const [err, input] = checker.validate(req.body, { coerce: true })
+    const [err, input] = validate(req.body, checker, { coerce: true })
     if (err) throw err
     req.state.input = input
     next()

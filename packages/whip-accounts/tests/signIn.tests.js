@@ -6,7 +6,7 @@ const generalUser = accounts.find(a => a.firstName === 'General')
 const disabledUser = accounts.find(a => a.firstName === 'Disabled')
 const unverifiedUser = accounts.find(a => a.firstName === 'Unverified')
 
-test('Login • No email', async t => {
+test.only('Login • No email', async t => {
   const res = await app.test('/sign-in').post({ password })
   t.expect(res.statusCode).toBe(400)
   t.expect(res.body).toMatchSnapshot()
