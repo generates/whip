@@ -1,8 +1,0 @@
-{
-  "name": "@generates/whip-upload",
-  "version": "0.0.0",
-  "license": "UNLICENSED",
-  "dependencies": {
-    "multer": "^1.4.4"
-  }
-}
