@@ -25,7 +25,7 @@ test.only('Login • Invalid credentials', async t => {
   t.expect(res.body).toEqual({ message: 'Incorrect email or password' })
 })
 
-test('Login • Valid credentials', async t => {
+test.only('Login • Valid credentials', async t => {
   const res = await app.test('/sign-in').post({ ...generalUser, password })
   t.expect(res.statusCode).toBe(201)
   t.expect(res.body).toMatchSnapshot({ csrfToken: t.expect.any(String) })

@@ -5,7 +5,7 @@ import { nanoid } from 'nanoid'
 export default async function createAccount (req, res, next) {
   const logger = req.logger.ns('whip.accounts.account')
   const password = req.state.hashedPassword
-  const data = merge({}, req.state.validation.data, { id: nanoid(), password })
+  const data = merge({}, req.state.input, { id: nanoid(), password })
   logger.debug('signUp.createAccount', data)
 
   try {

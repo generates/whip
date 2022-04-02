@@ -5,7 +5,7 @@ const defaults = { path: '/verify-email' }
 
 function handleEmailVerificationEmail (req, res, next, options) {
   const url = createUrl(req.opts.baseUrl, options.path)
-  const input = req.state.validation.data
+  const input = req.state.input
   url.search = { email: input.email, token: req.state.token }
   const { verifyEmail } = req.opts.accounts.email
   const data = { action: { href: url.href } }

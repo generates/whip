@@ -20,7 +20,7 @@ export default function insertToken (opts) {
       req.state.body.message = `${t} request submitted successfully`
     }
 
-    const data = req.state.validation.data
+    const input = req.state.input
     const logger = req.logger.ns('nrg.accounts.token')
     if (isEmail && !req.state.emailChanged && account && account.emailVerified) {
       // Log a warning that someone is trying to create a email verification
@@ -29,7 +29,7 @@ export default function insertToken (opts) {
       logger.warn(
         'token.handleInsertToken •',
         'Email token request that has already been verified',
-        data
+        input
       )
     } else if (isEmail && !account) {
       // Log a warning that someone is trying to create a email verification
@@ -37,7 +37,7 @@ export default function insertToken (opts) {
       logger.warn(
         'token.handleInsertToken •',
         'Email token request that does not match an enabled account',
-        { data, accountId: account?.id }
+        { input, accountId: account?.id }
       )
     } else if (opts.type === 'password' && !account) {
       // Log a warning that someone is trying to reset a password for an account
@@ -45,12 +45,12 @@ export default function insertToken (opts) {
       logger.warn(
         'token.handleInsertToken •',
         'Password token request that does not match an enabled account',
-        { data, accountId: account?.id }
+        { input, accountId: account?.id }
       )
     } else {
       const debug = {
         opts,
-        data,
+        input,
         accountId: account.id,
         hashedToken: req.state.hashedToken
       }
@@ -64,7 +64,7 @@ export default function insertToken (opts) {
             id: nanoid(),
             value: req.state.hashedToken,
             type: opts.type,
-            email: data.email,
+            email: input.email,
             accountId: account.id,
             expiresAt: addDays(new Date(), 1).toISOString()
           }

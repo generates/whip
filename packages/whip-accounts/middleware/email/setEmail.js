@@ -1,6 +1,6 @@
 export default async function setEmail (req, res, next) {
   const logger = req.logger.ns('whip.accounts.email')
-  const data = { email: req.state.validation.data.email, emailVerified: true }
+  const data = { email: req.state.input.email, emailVerified: true }
   logger.info('setEmail', { email: data.email })
 
   // Update the email and emailVerified values in the database and session. It's
