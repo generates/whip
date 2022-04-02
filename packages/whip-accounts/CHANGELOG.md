@@ -1,5 +1,12 @@
 # @generates/whip-accounts
 
+## 1.0.0
+
+### Patch Changes
+
+- Updated dependencies [2792d1a]
+  - @generates/whip@0.3.0
+
 ## 0.0.9
 
 ### Patch Changes
