@@ -13,7 +13,7 @@ export default async function createSession (req, res, next) {
     // If the rememberMe functionality is enabled and the user has selected
     // rememberMe, set the session cookie maxAge to null so that it won't have
     // a set expiry.
-    if (req.opts.accounts.rememberMe && req.state.validation.data.rememberMe) {
+    if (req.opts.accounts.rememberMe && req.state.input.rememberMe) {
       logger.info('session.createSession • Setting cookie maxAge to null')
       req.session.cookie.maxAge = null
     }

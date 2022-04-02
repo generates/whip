@@ -1,7 +1,7 @@
 export default async function getAccount (req, res, next) {
-  const validation = req.state.validation
-  const username = req.session.account?.username || validation?.data?.username
-  const email = req.session.account?.email || validation?.data?.email
+  const input = req.state.input
+  const username = req.session.account?.username || input?.username
+  const email = req.session.account?.email || input?.email
   if (username || email) {
     const where = {
       OR: [

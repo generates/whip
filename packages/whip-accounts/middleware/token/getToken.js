@@ -3,7 +3,7 @@ export default async function getToken (req, res, next) {
 
   req.state.account = await req.prisma.account
     .findFirst({
-      where: { email: req.state.validation.data.email },
+      where: { email: req.state.input.email },
       orderBy: { createdAt: 'desc' },
       include: { tokens: true }
     })

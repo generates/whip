@@ -18,8 +18,8 @@ export default async function verifyToken (req, res, next) {
 
   // Compare the supplied token value with the returned hashed token
   // value.
-  const payload = req.state.validation.data
-  const tokensMatch = await bcrypt.compare(payload.token, token.value)
+  const input = req.state.input
+  const tokensMatch = await bcrypt.compare(input.token, token.value)
 
   // Determine that the supplied token is valid if the token was found, the
   // token values match, and the token is not expired.
@@ -38,7 +38,7 @@ export default async function verifyToken (req, res, next) {
     logger.warn('token.verifyToken • Invalid token', info)
     logger.debug(
       'token.verifyToken • Tokens',
-      { storedToken: token, ...payload }
+      { storedToken: token, ...input }
     )
 
     // Return a 400 Bad Request if the token is invalid. The user cannot be told

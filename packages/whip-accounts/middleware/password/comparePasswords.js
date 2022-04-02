@@ -3,8 +3,8 @@ import { BadRequestError } from '@generates/whip'
 
 export default async function comparePasswords (req, res, next) {
   const logger = req.logger.ns('whip.accounts.password')
-  const payload = req.state.validation?.data
-  if (payload?.password) {
+  const input = req.state.input
+  if (input?.password) {
     // Determine the password to compare against.
     const password = req.state.account
       ? req.state.account.password
@@ -12,10 +12,10 @@ export default async function comparePasswords (req, res, next) {
 
     // Compare the supplied password with the password hash saved in the
     // database to determine if they match.
-    const passwordsMatch = await bcrypt.compare(payload.password, password)
+    const passwordsMatch = await bcrypt.compare(input.password, password)
 
     // Log the password and whether the passwords match for debugging purposes.
-    const debug = { payload, password, passwordsMatch }
+    const debug = { input, password, passwordsMatch }
     logger.debug('password.comparePasswords', debug)
 
     if (!passwordsMatch && req.session?.account) {

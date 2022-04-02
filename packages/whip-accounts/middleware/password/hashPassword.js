@@ -2,8 +2,8 @@ import bcrypt from 'bcrypt'
 
 export default async function hashPassword (req, res, next) {
   // Hash the user's password using bcrypt.
-  const data = req.state.validation?.data
-  const password = data?.newPassword || data?.password
+  const input = req.state.input
+  const password = input?.newPassword || input?.password
   if (password) {
     const logger = req.logger.ns('whip.accounts.password')
     logger.debug('password.hashPassword', { password })

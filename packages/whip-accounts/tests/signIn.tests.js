@@ -6,26 +6,26 @@ const generalUser = accounts.find(a => a.firstName === 'General')
 const disabledUser = accounts.find(a => a.firstName === 'Disabled')
 const unverifiedUser = accounts.find(a => a.firstName === 'Unverified')
 
-test('Login • No email', async t => {
+test.skip('Login • No email', async t => {
   const res = await app.test('/sign-in').post({ password })
   t.expect(res.statusCode).toBe(400)
   t.expect(res.body).toMatchSnapshot()
 })
 
-test('Login • No password', async t => {
+test.skip('Login • No password', async t => {
   const res = await app.test('/sign-in').post({ email: generalUser.email })
   t.expect(res.statusCode).toBe(400)
   t.expect(res.body).toMatchSnapshot()
 })
 
-test('Login • Invalid credentials', async t => {
+test.only('Login • Invalid credentials', async t => {
   const payload = { ...generalUser, password: 'thisIsNotTheRightPw' }
   const res = await app.test('/sign-in').post(payload)
   t.expect(res.statusCode).toBe(400)
   t.expect(res.body).toEqual({ message: 'Incorrect email or password' })
 })
 
-test('Login • Valid credentials', async t => {
+test.only('Login • Valid credentials', async t => {
   const res = await app.test('/sign-in').post({ ...generalUser, password })
   t.expect(res.statusCode).toBe(201)
   t.expect(res.body).toMatchSnapshot({ csrfToken: t.expect.any(String) })
