@@ -1,5 +1,11 @@
 # @generates/whip
 
+## 0.3.0
+
+### Minor Changes
+
+- 2792d1a: Handling streams in response
+
 ## 0.2.4
 
 ### Patch Changes
