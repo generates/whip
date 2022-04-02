@@ -11,6 +11,6 @@
     "access": "public"
   },
   "dependencies": {
-    "ioredis": "^4.28.2"
+    "ioredis": "^4.28.5"
   }
 }
