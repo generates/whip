@@ -3,6 +3,6 @@
   "version": "0.0.0",
   "license": "UNLICENSED",
   "dependencies": {
-    "stripe": "^8.195.0"
+    "stripe": "^8.222.0"
   }
 }
