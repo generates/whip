@@ -25,7 +25,7 @@
     "@ianwalter/url": "^2.0.0",
     "bcrypt": "^5.0.1",
     "date-fns": "^2.27.0",
-    "nanoid": "^3.1.30",
+    "nanoid": "^4.0.2",
     "uid-safe": "^2.1.5"
   },
   "devDependencies": {
