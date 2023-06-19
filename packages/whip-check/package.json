@@ -11,7 +11,7 @@
     "access": "public"
   },
   "dependencies": {
-    "date-fns": "^2.27.0",
+    "date-fns": "^2.30.0",
     "isemail": "^3.2.0",
     "libphonenumber-js": "^1.9.44",
     "superstruct": "^0.15.4",
