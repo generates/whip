@@ -7,6 +7,6 @@
     "example.app": "../../example.js ./tests/fixtures/app.js"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.45.0"
+    "@aws-sdk/client-s3": "^3.436.0"
   }
 }
